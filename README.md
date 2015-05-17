@@ -1,5 +1,5 @@
 # akka_dining_philosophers
-###Akka Actors playing the role of dining philosophers
+###Akka Actors playing the roles of dining philosophers
 
 Assignment implemented as a part of Concurrent Computing course at AGH University of Science and Technology.
 

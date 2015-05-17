@@ -5,6 +5,9 @@ import akka.actor.Actor
 /**
  * nuk on 17.05.15.
  */
+/*
+An actor serving as arbitrator of forks
+ */
 class Waiter extends Actor {
   private val forks: Array[Boolean] = (1 to 5).map(_ => true).toArray
   private var eating: Int = 0

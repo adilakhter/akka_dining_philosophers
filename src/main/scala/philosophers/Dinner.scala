@@ -94,7 +94,7 @@ object Dinner extends SimpleSwingApplication {
     running = true
     stop = () => {
       forks.foreach(_ ! PoisonPill)
-      philosophers.foreach(_ ! PoisonPill)
+      philosophers.foreach(_ ! PoisonPill) //sorry guys
       philosopherLabels.foreach(_.icon = sadImage)
       running = false
     }
@@ -121,6 +121,7 @@ object Dinner extends SimpleSwingApplication {
     }
   }
 
+  //Label with a timer
   class ClockLabel(s: String) extends Label(s) with ActionListener {
     val t = new Timer(1000, this)
     var elapsed = 0L
@@ -143,6 +144,7 @@ object Dinner extends SimpleSwingApplication {
     }
   }
 
+  //Label with 'dining count'
   class CountLabel extends Label {
     border = Swing.EmptyBorder(0, 30, 0, 30)
     font = textFont
