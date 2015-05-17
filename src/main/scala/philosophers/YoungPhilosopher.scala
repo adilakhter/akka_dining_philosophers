@@ -11,14 +11,13 @@ import scala.util.Random
 /*
 Young philosophers try to first get the fork on their left, then the one on their right.
  */
-class YoungPhilosopher(name: String, left: ActorRef, right: ActorRef) extends Philosopher(name, left, right) {
+class YoungPhilosopher(id: Int, left: ActorRef, right: ActorRef) extends Philosopher(id, left, right) {
 
   import context._
 
   def thinking: Receive = {
     case Thought =>
       become(hungry)
-      println(name + " became hungry")
       self ! GetFork(left)
   }
 
@@ -28,16 +27,21 @@ class YoungPhilosopher(name: String, left: ActorRef, right: ActorRef) extends Ph
       f ! Take(self)
     case GotForks =>
       become(eating)
-      system.scheduler.scheduleOnce((Random.nextInt(3) + 1) seconds, self, EatingTime)
+      setImage(id, eatingImage)
+      system.scheduler.scheduleOnce((Random.nextInt(delay) + 1) milliseconds, self, EatingTime)
   }
 
   def waitingFor(f: ActorRef): Receive = {
     case Taken(`f`) => become(hungry)
-      println(name + " got " + f)
       f match {
-        case `left` => self ! GetFork(right)
-        case `right` => self ! GotForks
+        case `left` =>
+          setImage(id, leftImage)
+          self ! GetFork(right)
+        case `right` =>
+          self ! GotForks
       }
+    case Unavailable(`f`) =>
+      become(hungry)
+      system.scheduler.scheduleOnce((Random.nextInt(delay) + 1) milliseconds, self, GetFork(f))
   }
-
 }
