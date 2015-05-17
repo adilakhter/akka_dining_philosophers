@@ -26,7 +26,7 @@ abstract class Philosopher(id: Int, left: ActorRef, right: ActorRef) extends Act
     case Eaten =>
       left ! Put(self)
       right ! Put(self)
-      setImage(id, sadImage)
+      updateUIStatus(id, sadImage)
       become(thinking)
       Philosopher.think(self)
   }

@@ -1,8 +1,10 @@
+import java.awt.Font
 import javax.swing.ImageIcon
 
 import akka.actor.ActorRef
 
 import scala.concurrent.duration._
+import scala.swing.Font
 import scala.util.Random
 
 /**
@@ -13,15 +15,16 @@ package object philosophers {
   val leftImage = new ImageIcon(getClass.getClassLoader.getResource("left.png"))
   val rightImage = new ImageIcon(getClass.getClassLoader.getResource("right.png"))
   val sadImage = new ImageIcon(getClass.getClassLoader.getResource("sad.png"))
-
+  val textFont = new Font("Arial", Font.BOLD, 14)
   def randomDelay = (Random.nextInt(1400) + 1) milliseconds
 
-  def setImage(id: Int, img: ImageIcon): Unit = {
+  def updateUIStatus(id: Int, img: ImageIcon): Unit = {
     val labelID = id match {
       case 5 => 2
       case i if i < 3 => i - 1
       case _ => id
     }
+    if (img == eatingImage) Dinner.philosopherCounts(id - 1).count += 1
     Dinner.philosopherLabels(labelID).icon = img
   }
 

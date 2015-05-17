@@ -18,16 +18,16 @@ class GreedyPhilosopher(id: Int, left: ActorRef, right: ActorRef) extends Philos
   override def hungry: Receive = {
     //first successful
     case Taken(`left`) =>
-      setImage(id, leftImage)
+      updateUIStatus(id, leftImage)
       right ! Take(self)
     case Taken(`right`) =>
       become(eating)
-      setImage(id, eatingImage)
+      updateUIStatus(id, eatingImage)
       system.scheduler.scheduleOnce(randomDelay, self, Eaten) //eating takes some time
     //first unsuccessful
     case Unavailable(`right`) =>
       left ! Put(self)
-      setImage(id, sadImage)
+      updateUIStatus(id, sadImage)
       system.scheduler.scheduleOnce(randomDelay) {
         left ! Take(self)
       }

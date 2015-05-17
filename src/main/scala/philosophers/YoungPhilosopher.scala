@@ -20,11 +20,11 @@ class YoungPhilosopher(id: Int, left: ActorRef, right: ActorRef) extends Philoso
 
   override def hungry: Receive = {
     case Taken(`left`) =>
-      setImage(id, leftImage)
+      updateUIStatus(id, leftImage)
       right ! Take(self)
     case Taken(`right`) =>
       become(eating)
-      setImage(id, eatingImage)
+      updateUIStatus(id, eatingImage)
       system.scheduler.scheduleOnce(randomDelay, self, Eaten) //eating takes time
     case Unavailable(fork) =>
       //stay hungry for a while and retry

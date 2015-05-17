@@ -18,7 +18,7 @@ class LazyPhilosopher(id: Int, left: ActorRef, right: ActorRef, waiter: ActorRef
       right ! Take(self)
       //no need to care about the responses from forks
       become(eating)
-      setImage(id, eatingImage)
+      updateUIStatus(id, eatingImage)
       system.scheduler.scheduleOnce(randomDelay, self, Eaten) //eating takes some time
   }
 
@@ -33,7 +33,7 @@ class LazyPhilosopher(id: Int, left: ActorRef, right: ActorRef, waiter: ActorRef
       left ! Put(self)
       right ! Put(self)
       waiter ! Finished(id)
-      setImage(id, sadImage)
+      updateUIStatus(id, sadImage)
       become(thinking)
       Philosopher.think(self)
   }
