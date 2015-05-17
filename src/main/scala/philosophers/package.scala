@@ -13,7 +13,7 @@ package object philosophers {
   case class GetFork(fork: ActorRef)
   case object EatingTime extends DiningMessage
 
-  case object Think extends DiningMessage
+  case object Thought extends DiningMessage
 
   case object GotForks
 }

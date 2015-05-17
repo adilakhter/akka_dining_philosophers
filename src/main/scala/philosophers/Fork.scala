@@ -15,6 +15,7 @@ class Fork extends Actor {
   def available: Receive = {
     case Take(philosopher: ActorRef) =>
       become(taken(philosopher))
+      philosopher ! Taken(self)
   }
 
   def taken(philosopher: ActorRef): Receive = {
