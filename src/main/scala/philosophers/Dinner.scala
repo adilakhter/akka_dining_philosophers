@@ -60,6 +60,7 @@ object Dinner extends SimpleSwingApplication {
     reactions += {
       case ButtonClicked(`b1`) => run(classOf[YoungPhilosopher])
       case ButtonClicked(`b2`) => run(classOf[GreedyPhilosopher])
+      case ButtonClicked(`b3`) => runWithWaiter()
       case ButtonClicked(`b4`) => stop()
     }
 
@@ -73,6 +74,23 @@ object Dinner extends SimpleSwingApplication {
     philosophers.foreach(Philosopher.think)
     clock.start()
     stop = () => {
+      forks.foreach(_ ! PoisonPill)
+      philosophers.foreach(_ ! PoisonPill)
+      philosopherLabels.foreach(_.icon = sadImage)
+      clock.stop()
+    }
+  }
+
+  //runs waiter scenario
+  def runWithWaiter(): Unit = {
+    val waiter = system.actorOf(Props[Waiter], "Waiter")
+    val forks = for (i <- 1 to 5) yield system.actorOf(Props[Fork], "Fork" + i)
+    val philosophers = for (i <- 1 to 5) yield system.actorOf(Props(classOf[LazyPhilosopher],
+      i, forks(i - 1), forks(i % 5), waiter))
+    philosophers.foreach(Philosopher.think)
+    clock.start()
+    stop = () => {
+      waiter ! PoisonPill
       forks.foreach(_ ! PoisonPill)
       philosophers.foreach(_ ! PoisonPill)
       philosopherLabels.foreach(_.icon = sadImage)

@@ -25,6 +25,7 @@ package object philosophers {
     Dinner.philosopherLabels(labelID).icon = img
   }
 
+  //messages
   sealed trait DiningMessage
 
   //could use sender() instead of these arguments, but better for pattern matching
@@ -34,9 +35,17 @@ package object philosophers {
 
   case class Taken(fork:ActorRef) extends DiningMessage
 
-  case class Unavailable(fork: ActorRef)
+  case class Unavailable(fork: ActorRef) extends DiningMessage
+
+  //waiter messages
+  case class Need(id: Int) extends DiningMessage
+
+  case class Finished(id: Int) extends DiningMessage
 
   case object Eaten extends DiningMessage
-
   case object Thought extends DiningMessage
+
+  case object Served extends DiningMessage
+
+  case object Wait extends DiningMessage
 }
