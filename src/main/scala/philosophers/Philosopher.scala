@@ -24,7 +24,8 @@ abstract class Philosopher(id: Int, left: ActorRef, right: ActorRef) extends Act
   def thinking: Receive
 
   override def receive: Receive = thinking
-  def eating(): Receive = {
+
+  def eating: Receive = {
     case EatingTime =>
       left ! Put(self)
       right ! Put(self)

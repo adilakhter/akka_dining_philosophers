@@ -16,23 +16,24 @@ class YoungPhilosopher(id: Int, left: ActorRef, right: ActorRef) extends Philoso
   import context._
 
   def thinking: Receive = {
-    case Thought =>
+    case Thought => //finished thinking
       become(hungry)
       self ! GetFork(left)
   }
 
   override def hungry: Receive = {
-    case GetFork(f) =>
+    case GetFork(f) => //trying to get a fork
       become(waitingFor(f))
       f ! Take(self)
-    case GotForks =>
+    case GotForks => //got both forks
       become(eating)
       setImage(id, eatingImage)
-      system.scheduler.scheduleOnce((Random.nextInt(delay) + 1) milliseconds, self, EatingTime)
+      system.scheduler.scheduleOnce((Random.nextInt(delay) + 1) milliseconds, self, EatingTime) //eating takes time
   }
 
   def waitingFor(f: ActorRef): Receive = {
-    case Taken(`f`) => become(hungry)
+    case Taken(`f`) => //
+      become(hungry)
       f match {
         case `left` =>
           setImage(id, leftImage)
