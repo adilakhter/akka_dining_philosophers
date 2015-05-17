@@ -2,9 +2,6 @@ package philosophers
 
 import akka.actor.ActorRef
 
-import scala.concurrent.duration._
-import scala.util.Random
-
 /**
  * nuk on 17.05.15.
  */
@@ -18,31 +15,19 @@ class YoungPhilosopher(id: Int, left: ActorRef, right: ActorRef) extends Philoso
   def thinking: Receive = {
     case Thought => //finished thinking
       become(hungry)
-      self ! GetFork(left)
+      left ! Take(self)
   }
 
   override def hungry: Receive = {
-    case GetFork(f) => //trying to get a fork
-      become(waitingFor(f))
-      f ! Take(self)
-    case GotForks => //got both forks
+    case Taken(`left`) =>
+      setImage(id, leftImage)
+      right ! Take(self)
+    case Taken(`right`) =>
       become(eating)
       setImage(id, eatingImage)
-      system.scheduler.scheduleOnce((Random.nextInt(delay) + 1) milliseconds, self, EatingTime) //eating takes time
-  }
-
-  def waitingFor(f: ActorRef): Receive = {
-    case Taken(`f`) => //
-      become(hungry)
-      f match {
-        case `left` =>
-          setImage(id, leftImage)
-          self ! GetFork(right)
-        case `right` =>
-          self ! GotForks
-      }
-    case Unavailable(`f`) =>
-      become(hungry)
-      system.scheduler.scheduleOnce((Random.nextInt(delay) + 1) milliseconds, self, GetFork(f))
+      system.scheduler.scheduleOnce(randomDelay, self, Eaten) //eating takes time
+    case Unavailable(fork) =>
+      //stay hungry for a while and retry
+      system.scheduler.scheduleOnce(randomDelay, fork, Take(self))
   }
 }

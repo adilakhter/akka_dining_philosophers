@@ -59,6 +59,7 @@ object Dinner extends SimpleSwingApplication {
 
     reactions += {
       case ButtonClicked(`b1`) => run(classOf[YoungPhilosopher])
+      case ButtonClicked(`b2`) => run(classOf[GreedyPhilosopher])
       case ButtonClicked(`b4`) => stop()
     }
 

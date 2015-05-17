@@ -2,6 +2,8 @@ import javax.swing.ImageIcon
 
 import akka.actor.ActorRef
 
+import scala.concurrent.duration._
+import scala.util.Random
 
 /**
  * nuk on 17.05.15.
@@ -11,7 +13,8 @@ package object philosophers {
   val leftImage = new ImageIcon(getClass.getClassLoader.getResource("left.png"))
   val rightImage = new ImageIcon(getClass.getClassLoader.getResource("right.png"))
   val sadImage = new ImageIcon(getClass.getClassLoader.getResource("sad.png"))
-  val delay = 1400
+
+  def randomDelay = (Random.nextInt(1400) + 1) milliseconds
 
   def setImage(id: Int, img: ImageIcon): Unit = {
     val labelID = id match {
@@ -33,9 +36,7 @@ package object philosophers {
 
   case class Unavailable(fork: ActorRef)
 
-  case class GetFork(fork: ActorRef)
-  case object EatingTime extends DiningMessage
+  case object Eaten extends DiningMessage
 
   case object Thought extends DiningMessage
-  case object GotForks
 }
