@@ -1,11 +1,10 @@
 package philosophers
 
 import akka.actor.{Actor, ActorRef, ActorSystem}
+
 /**
- * nuk on 17.05.15.
- */
-/*
-No matter the experience, every philosopher is hungry and eats when possible.
+ * No matter the experience, every philosopher is hungry and eats when possible.
+ * @author nuk
  */
 object Philosopher {
   def think(p: ActorRef)(implicit system: ActorSystem) = {

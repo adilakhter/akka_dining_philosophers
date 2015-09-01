@@ -4,11 +4,12 @@ import javax.swing.ImageIcon
 import akka.actor.ActorRef
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 import scala.swing.Font
 import scala.util.Random
 
 /**
- * nuk on 17.05.15.
+ * @author nuk
  */
 package object philosophers {
   val eatingImage = new ImageIcon(getClass.getClassLoader.getResource("eating.png"))

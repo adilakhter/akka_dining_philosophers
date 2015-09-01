@@ -3,10 +3,7 @@ package philosophers
 import akka.actor.{Actor, ActorRef}
 
 /**
- * nuk on 17.05.15.
- */
-/*
-
+ * @author nuk
  */
 class Fork extends Actor {
 

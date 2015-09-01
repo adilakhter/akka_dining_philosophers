@@ -3,11 +3,9 @@ package philosophers
 import akka.actor.ActorRef
 
 /**
- * nuk on 17.05.15.
- */
-/*
-Greedy philosophers always try to take both forks,
-although they're smart enough to put one down in case they can't do that.
+ * Greedy philosophers always try to take both forks,
+ * although they're smart enough to put one down in case they can't do that.
+ * @author nuk
  */
 class GreedyPhilosopher(id: Int, left: ActorRef, right: ActorRef) extends Philosopher(id, left, right) {
 

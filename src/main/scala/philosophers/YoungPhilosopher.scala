@@ -3,10 +3,8 @@ package philosophers
 import akka.actor.ActorRef
 
 /**
- * nuk on 17.05.15.
- */
-/*
-Young philosophers try to first get the fork on their left, then the one on their right.
+ * Young philosophers try to first get the fork on their left, then the one on their right.
+ * @author nuk
  */
 class YoungPhilosopher(id: Int, left: ActorRef, right: ActorRef) extends Philosopher(id, left, right) {
 

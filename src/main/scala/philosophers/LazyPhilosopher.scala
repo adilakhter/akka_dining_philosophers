@@ -3,10 +3,8 @@ package philosophers
 import akka.actor.ActorRef
 
 /**
- * nuk on 17.05.15.
- */
-/*
-Lazy philosophers wait for the dish to be served by the waiter.
+ * Lazy philosophers wait for the dish to be served by the waiter.
+ * @author nuk
  */
 class LazyPhilosopher(id: Int, left: ActorRef, right: ActorRef, waiter: ActorRef) extends Philosopher(id, left, right) {
 

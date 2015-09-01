@@ -11,10 +11,8 @@ import scala.swing._
 import scala.swing.event.ButtonClicked
 
 /**
- * nuk on 17.05.15.
- */
-/*
-GUI running philosopher algorithms
+ * GUI running philosopher algorithms
+ * @author nuk
  */
 object Dinner extends SimpleSwingApplication {
   {
